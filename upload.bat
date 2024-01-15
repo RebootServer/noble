@@ -1,6 +1,6 @@
 echo 현재 디렉토리: %CD%
 
-cd "C:\Users\rlaal\OneDrive\바탕 화면\테스트\Noble"
+cd "C:\Users\rlaal\OneDrive\바탕 화면\테스트\noble"
 
 git add .
 
