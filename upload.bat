@@ -1,5 +1,3 @@
-@echo off
-
 REM 현재 디렉토리 출력
 echo 현재 디렉토리: %CD%
 
