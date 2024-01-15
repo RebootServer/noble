@@ -17,4 +17,3 @@ REM 변경 사항 다시 푸시
 git push origin main
 
 echo "업로드 완료"
-pause
