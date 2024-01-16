@@ -11,7 +11,8 @@
   font-weight: 400;
   font-style: normal;
 }
-body { font-family: 'SUITE-Regular', "SUITE", sans-serif; text-align: center; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; background-color: #f4f4f4; }
+body { font-family: 'SUITE-Regular', "SUITE", sans-serif; text-align: center; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; background-color: #f4f4f4; position: relative; }
+.fixed-image { position: fixed; bottom: 0; right: 0; width: 100px; height: 100px; z-index: 9999; }
 .table-container { width: 65%; background-color: #fff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: auto; margin-top: 20px; margin-bottom: 20px; border-bottom: none; }
 table { border-collapse: collapse; width: 100%; }
 .scrollable { max-height: none; overflow-y: auto; }
@@ -21,6 +22,7 @@ th { background-color: #f2f2f2; font-weight: bold; color: #333; }
 </style>
 </head>
 <body>
+<img class="fixed-image" src="https://cdn.discordapp.com/attachments/1176396125243199508/1196763138184466453/i15476974477.png?ex=65b8cf86&is=65a65a86&hm=314e728de0282349944fe4a03c8b54109589069602bc9a70710c63849a081ba9&" alt="Fixed Image">
 <div class="table-container scrollable" style="margin-top: 20px; margin-bottom: 20px;">
 <table>
 <tr style="background-color: #4CAF50; color: white;">
