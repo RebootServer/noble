@@ -7,7 +7,7 @@ git add .
 REM 커밋
 git commit -m "winter."
 
-
+git pull origin main
 
 git push origin main
 
