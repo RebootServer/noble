@@ -9,7 +9,6 @@ git commit -m "winter."
 
 git pull origin main
 
-
 git push origin main
 
 echo "업로드 완료"
