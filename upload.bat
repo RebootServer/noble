@@ -5,9 +5,8 @@ cd "C:\Users\rlaal\OneDrive\바탕 화면\테스트\noble"
 git add .
 
 REM 커밋
-git commit -m "winter."
 
-git pull origin main
+git commit -m "winter."
 
 git push origin main
 
