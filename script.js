@@ -1,5 +1,5 @@
 // 'KMS.XML' 파일을 불러오는 fetch 요청
-fetch('KMS.XML')
+fetch('KMS.xml')
   .then(response => response.text())  // 응답을 텍스트 형식으로 변환
   .then(xmlString => {
     // XML 데이터를 파싱
