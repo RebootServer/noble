@@ -1,66 +1,33 @@
-ï»¿document.getElementById('searchButton').addEventListener('click', async function() {
-    const searchValue = document.getElementById('searchInput').value.trim();
+// 'KMS.XML' ÆÄÀÏÀ» ºÒ·¯¿À´Â fetch ¿äÃ»
+fetch('KMS.XML')
+  .then(response => response.text())  // ÀÀ´äÀ» ÅØ½ºÆ® Çü½ÄÀ¸·Î º¯È¯
+  .then(xmlString => {
+    // XML µ¥ÀÌÅÍ¸¦ ÆÄ½Ì
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
-    if (!searchValue) {
-        alert("ì•„ì´í…œ ì´ë¦„ì„ ì…ë ¥í•´ ì£¼ì„¸ìš”.");
-        return;
-    }
+    // "Cap" µğ·ºÅä¸® Ã£±â
+    const capDir = xmlDoc.querySelector('dir[name="Cap"]');
 
-    // XML íŒŒì¼ ë¡œë“œ ë° íŒŒì‹±
-    try {
-        // KMS.XMLê³¼ GMS.XML ë¶ˆëŸ¬ì˜¤ê¸°
-        const kmsResponse = await fetch('KMS.XML');
-        const gmsResponse = await fetch('GMS.XML');
+    // "Cap" µğ·ºÅä¸® ³»ÀÇ ¸ğµç "dir" ¿ä¼Ò °¡Á®¿À±â
+    const dirs = capDir ? capDir.querySelectorAll('dir') : [];
 
-        // ì‘ë‹µ ìƒíƒœ í™•ì¸
-        if (!kmsResponse.ok) {
-            throw new Error(`KMS.XML ë¡œë“œ ì‹¤íŒ¨: ${kmsResponse.status}`);
-        }
-        if (!gmsResponse.ok) {
-            throw new Error(`GMS.XML ë¡œë“œ ì‹¤íŒ¨: ${gmsResponse.status}`);
-        }
+    // HTML¿¡¼­ ¸®½ºÆ®¸¦ Ç¥½ÃÇÒ ¿ä¼Ò °¡Á®¿À±â
+    const itemList = document.getElementById('itemList');
 
-        const kmsXML = await kmsResponse.text();
-        const gmsXML = await gmsResponse.text();
-
-        // XML íŒŒì‹±
-        const parser = new DOMParser();
-        const kmsDoc = parser.parseFromString(kmsXML, "application/xml");
-        const gmsDoc = parser.parseFromString(gmsXML, "application/xml");
-
-        // KMS.XMLì—ì„œ í•œê¸€ ëª…ìœ¼ë¡œ ID ì°¾ê¸°
-        const itemDetails = [];
-        const dirElements = kmsDoc.querySelectorAll("dir[name]");
-
-        dirElements.forEach(dir => {
-            const stringElement = dir.querySelector("string[name='name']");
-            if (stringElement && stringElement.getAttribute("value").includes(searchValue)) {
-                itemDetails.push({
-                    id: dir.getAttribute("name"),
-                    fullName: stringElement.getAttribute("value")
-                });
-            }
+    // ¾ÆÀÌÅÛÀÌ ÀÖÀ¸¸é ¸®½ºÆ®¿¡ Ç¥½Ã
+    if (dirs.length > 0) {
+        dirs.forEach(dir => {
+            const id = dir.getAttribute('name');
+            const name = dir.querySelector('string[name="name"]').getAttribute('value');
+            const listItem = document.createElement('li');
+            listItem.textContent = `${id}: ${name}`;
+            itemList.appendChild(listItem);
         });
-
-        // GMS.XMLì—ì„œ í•´ë‹¹ IDë¡œ ì˜ë¬¸ ëª… ì°¾ê¸°
-        const results = [];
-        itemDetails.forEach(({ id, fullName }) => {
-            const gmsElement = gmsDoc.querySelector(`dir[name='${id}'] > string[name='name']`);
-            if (gmsElement) {
-                const englishName = gmsElement.getAttribute("value");
-                results.push(`${fullName} - ${englishName}`);
-            }
-        });
-
-        // ê²°ê³¼ ì¶œë ¥
-        const resultsContainer = document.getElementById('results');
-        if (results.length > 0) {
-            resultsContainer.innerHTML = results.map(result => `<p>${result}</p>`).join('');
-        } else {
-            resultsContainer.innerHTML = `<p>ê²°ê³¼ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.</p>`;
-        }
-    } catch (error) {
-        console.error("XML ì²˜ë¦¬ ì¤‘ ì˜¤ë¥˜ ë°œìƒ:", error);
-        alert("XML íŒŒì¼ì„ ì²˜ë¦¬í•˜ëŠ” ì¤‘ ë¬¸ì œê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
+    } else {
+        itemList.innerHTML = '<li>No items found.</li>';
     }
-});
+  })
+  .catch(error => {
+    console.error('Error loading XML:', error);
+  });
